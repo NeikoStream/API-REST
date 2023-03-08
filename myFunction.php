@@ -19,7 +19,7 @@
 
     function newUser($user,$mdp){
         $linkpdo = connexionDB();
-        if(getUser($user)['user'][0] == NULL){
+        if(getUser($user) == NULL){
             $new = $linkpdo->prepare('INSERT INTO user(user,passwordKey) VALUES (:user,:pwdHash)');
             return($new->execute(array('user' => $user, 'pwdHash' => genPasswordHash($mdp))));
         }
@@ -30,6 +30,7 @@
         $getUser  = $linkpdo->prepare('SELECT * FROM user WHERE user = :user');
         $getUser->execute(array('user' => $user));
         $user = $getUser->fetchALL();
+        print_r($user);
         return $user;
     }
 
