@@ -13,15 +13,17 @@ include('jwt_utils.php');
     /// Cas de la méthode POST
     case "POST" :
         /// Récupération des données envoyées par le Client
-        $header = array('alg'=>'HS256','typ'=>'JWT');
+        
+        $postedData = (array) json_decode(file_get_contents('php://input'),TRUE);
 
-        $mdp = "admin";
-        $user = "admin";
+        if(isset($postedData['user']) && isset($postedData['mdp'])){
+                
+            $payload = array('user'=>$postedData['user'], 'exp'=>(time()+60));
+            $header = array('alg'=>'HS256','typ'=>'JWT');
+            $mdp = "admin";
+            $user = "admin";
         
-        if(isset($_GET['user']) && isset($_GET['mdp'])){
-        $payload = array('user'=>$_GET['user'], 'exp'=>(time()+60));
-        
-            if($user == $_GET['user'] && $mdp == $_GET['mdp']){
+            if($user == $postedData['user'] && $mdp == $postedData['mdp']){
                 $jwt = generate_jwt($header, $payload);
                 if(is_jwt_valid($jwt)){
                     deliver_response(200, "Clé JWT créer avec succés", $jwt);
@@ -33,11 +35,11 @@ include('jwt_utils.php');
             }
         }
 
-        if(isset($_GET['token'])){
-            if(is_jwt_valid($_GET['token'])){
-                deliver_response(200, "Clé JWT valide", $_GET['token']);
+        if(!is_null(get_bearer_token())){
+            if(is_jwt_valid(get_bearer_token())){
+                deliver_response(200, "Clé JWT valide", get_bearer_token());
             }else{
-                deliver_response(201, "Clé JWT non valide", NULL);
+                deliver_response(201, "Clé JWT non valide", get_bearer_token());
             }
         }
 
@@ -52,7 +54,7 @@ include('jwt_utils.php');
     default :
     /// Récupération de l'identifiant de la ressource envoyé par le Client
 
-        deliver_response(202, "Manque user / mdp", NULL);
+        deliver_response(202, "Manque user / mdp ou token pour verifier", NULL);
         /// Envoi de la réponse au Client
         
         break;
