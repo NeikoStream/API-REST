@@ -13,6 +13,7 @@
         return $linkpdo;
     }
 
+    ### API_AUTHENTIFICATION
     function genPasswordHash($mdpClair){
         return password_hash($mdpClair, PASSWORD_DEFAULT, ["cost" => 12]);
     }
@@ -33,6 +34,7 @@
         return $user;
     }
 
+    ### API_REST
     function getById($id){
         $linkpdo = connexionDB();
         $recupid = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id = :id');
