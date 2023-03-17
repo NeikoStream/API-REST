@@ -2,7 +2,7 @@
     function connexionDB(){  
         $db_username = 'root';
         $db_password = '';
-        $db_name = 'api_rest';
+        $db_name = 'forum';
         $db_host = '127.0.0.1:3306';
 
         try {
@@ -18,17 +18,17 @@
         return password_hash($mdpClair, PASSWORD_DEFAULT, ["cost" => 12]);
     }
 
-    function newUser($user,$mdp){
+    function newUser($user,$mdp,$role){
         $linkpdo = connexionDB();
-        if(getUser($user)['user'][0] == NULL){
-            $new = $linkpdo->prepare('INSERT INTO user(user,passwordKey) VALUES (:user,:pwdHash)');
-            return($new->execute(array('user' => $user, 'pwdHash' => genPasswordHash($mdp))));
+        if(getUser($user)[0] == NULL){
+            $new = $linkpdo->prepare('INSERT INTO utilisateur(login, password, idRole) VALUES (:user,:pwdHash,:role)');
+            return($new->execute(array('user' => $user, 'pwdHash' => genPasswordHash($mdp), 'role' => $role)));
         }
     }
 
     function getUser($user){
         $linkpdo = connexionDB();
-        $getUser  = $linkpdo->prepare('SELECT * FROM user WHERE user = :user');
+        $getUser  = $linkpdo->prepare('SELECT * FROM utilisateur WHERE login = :user');
         $getUser->execute(array('user' => $user));
         $user = $getUser->fetchALL();
         return $user;
