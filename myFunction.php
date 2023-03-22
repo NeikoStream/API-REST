@@ -46,9 +46,9 @@
     ## Publisher
     function getMyArticles($iduser){
         $linkpdo = connexionDB();
-        $recupid = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id = :id');
+        $recupid = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=1 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
         $recupid->execute(array('id' => $id));
-        $chuck = $recupid->fetchALL();
+        $chuck = $recupid->fetchALL();  
         return $chuck;
     }
     
