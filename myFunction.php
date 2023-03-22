@@ -35,22 +35,35 @@
     }
 
     ### API_REST
-    ## Non Authentifier
+    ## GET
+    # Non Authentifier
     function getDeArticles(){
         $linkpdo = connexionDB();
-        $recupid = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
-        $articles = $recupid->fetchALL();
+        $requete = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
+        $requete -> execute()
+        $articles = $requete->fetchALL();
         return $articles;
     }
 
-    ## Publisher
-    function getMyArticles($iduser){
+    # Publisher
+    function getPuArticles(){
         $linkpdo = connexionDB();
-        $recupid = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=1 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
-        $recupid->execute(array('id' => $id));
-        $chuck = $recupid->fetchALL();  
-        return $chuck;
+        $requete = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
+        $requete -> execute();
+        $articles = $requete->fetchALL();  
+        return $articles;
     }
+
+    function getMyArticles($id){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle and articles.idUser=:id group by contenu, datePublication, login');
+        $requete->execute(array('id' => $id));
+        $articles = $requete->fetchALL();  
+        return $articles;
+    }
+
+    # Moderateur
+    function
     
     /*
     function getById($id){
