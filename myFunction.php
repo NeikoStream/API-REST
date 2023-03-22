@@ -1,8 +1,8 @@
 <?php
     function connexionDB(){  
         $db_username = 'root';
-        $db_password = '';
-        $db_name = 'api_rest';
+        $db_password = '$iutinfo';
+        $db_name = 'forum';
         $db_host = '127.0.0.1:3306';
 
         try {
@@ -13,6 +13,7 @@
         return $linkpdo;
     }
 
+    ### API_AUTHENTIFICATION
     function genPasswordHash($mdpClair){
         return password_hash($mdpClair, PASSWORD_DEFAULT, ["cost" => 12]);
     }
@@ -33,6 +34,25 @@
         return $user;
     }
 
+    ### API_REST
+    ## Non Authentifier
+    function getDeArticles(){
+        $linkpdo = connexionDB();
+        $recupid = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
+        $articles = $recupid->fetchALL();
+        return $articles;
+    }
+
+    ## Publisher
+    function getMyArticles($iduser){
+        $linkpdo = connexionDB();
+        $recupid = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id = :id');
+        $recupid->execute(array('id' => $id));
+        $chuck = $recupid->fetchALL();
+        return $chuck;
+    }
+    
+    /*
     function getById($id){
         $linkpdo = connexionDB();
         $recupid = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id = :id');
@@ -41,14 +61,14 @@
         return $chuck;
     }
 
-    function getAll(){
+
+    function getAllArticles(){
         $linkpdo = connexionDB();
 
         $recupall = $linkpdo->prepare('SELECT * FROM chuckn_facts');
         if($recupall->execute()){
             $chuck = $recupall->fetchALL();
             return $chuck;
-
         } else {
             return "ça marche po";
         }  
@@ -65,4 +85,7 @@
         $edit = $linkpdo->prepare('insert chuckn_facts SET phrase = :phrase WHERE id=:id');
 
     }
+    */
 ?>
+
+
