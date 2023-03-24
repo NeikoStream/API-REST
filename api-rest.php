@@ -1,7 +1,7 @@
 <?php
 /// Librairies éventuelles (pour la connexion à la BDD, etc.)
 include('myFunction.php');
-include('jwt_utils');
+include('jwt_utils.php');
  
 
  /// Paramétrage de l'entête HTTP (pour la réponse au Client)
@@ -23,7 +23,7 @@ include('jwt_utils');
         }
     } else {
         $chuck = getAll();
-        deliver_response(200, "getAll réussit", $chuck);
+        deliver_response(200, "getAll réussit", getPayloadUser(get_bearer_token()));
     }
     /// Envoi de la réponse au Client
     
@@ -65,8 +65,7 @@ include('jwt_utils');
     /// Récupération de l'identifiant de la ressource envoyé par le Client
         if (empty($_GET['id'])){
         /// Traitement
-            $chuck = getAll();
-            deliver_response(200, "Get All Réussit", $chuck);
+            deliver_response(200, "Get All Réussit", getPayloadUser(get_bearer_token()));
         }
         /// Envoi de la réponse au Client
         
