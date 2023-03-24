@@ -13,19 +13,11 @@ include('jwt_utils.php');
  switch ($http_method){
     /// Cas de la méthode GET
     case "GET" :
-    /// Récupération des critères de recherche envoyés par le Client
-    if (!empty($_GET['id'])){
-        $chuck = getById($_GET['id']);
-        if(!empty($chuck)){
-            deliver_response(201, "getByID réussit", $chuck);
-        } else{
-            deliver_response(202, "ID Innexistant", $chuck);
+        if(is_jwt_valid(get_bearer_token())){
+            deliver_response(201, "Ca passe", NULL);
+        } else {
+            deliver_response(201, "Ca casse", NULL);
         }
-    } else {
-        $chuck = getAll();
-        deliver_response(200, "getAll réussit", getPayloadUser(get_bearer_token()));
-    }
-    /// Envoi de la réponse au Client
     
     break;
     /// Cas de la méthode POST
