@@ -20,10 +20,8 @@
 
     function newUser($user,$mdp,$role){
         $linkpdo = connexionDB();
-        if(getUser($user)[0] == NULL){
-            $new = $linkpdo->prepare('INSERT INTO utilisateur(login, password, idRole) VALUES (:user,:pwdHash,:role)');
-            return($new->execute(array('user' => $user, 'pwdHash' => genPasswordHash($mdp), 'role' => $role)));
-        }
+        $new = $linkpdo->prepare('INSERT INTO utilisateur(login, password, idRole) VALUES (:user,:pwdHash,:role)');
+        return($new->execute(array('user' => $user, 'pwdHash' => genPasswordHash($mdp), 'role' => $role)));
     }
 
     function getUser($user){
@@ -34,7 +32,71 @@
         return $user;
     }
 
+    function getRole($idUser){
+        $linkpdo = connexionDB();
+        $getUser  = $linkpdo->prepare('SELECT idRole FROM utilisateur WHERE idUser = :user');
+        $getUser->execute(array('user' => $idUser));
+        $user = $getUser->fetchALL();
+        return $user[0][0];
+    }
+
     ### API_REST
+    /*Moderateur*/
+
+    //tous les articles + nblike + nb dislike
+    function getMoArticles(){
+        return NULL;
+    }
+    //tous les likes/dislikes par articles (peut etre mettre un id en param)
+    function getLikeArticles(){
+        return NULL;
+    }
+
+    //delete un article
+    function deleteArticle($idArticle){
+        return NULL;
+    }
+
+
+    /*Publisher*/
+
+    //post un article
+    function postPuArticle($contenu, $idPublisher){
+        return NULL;
+    }
+    //peut etre faire juste un getArticles en commun vue qu'il renvoie la meme chose
+    function getPuArticles(){
+        return NULL;
+    }
+    //renvoie les articles d'un utilisateur
+    function getMyArticles($idPublisher){
+        return NULL;
+    }
+    //modifie un article
+    function patchPuArticles($contenu,$idArticle){
+        return NULL;
+    }
+    //supprimer ses articles (la meme que get)
+    function deleteMyArticles($idArticle){
+        return NULL;
+    }
+    //LIKE/DISLIKE
+    function postLikeArticles($idArticle,$idPublisher){
+        return NULL;
+    }
+    function postDisLikeArticles($idArticle,$idPublisher){
+        return NULL;
+    }
+
+    /*Default*/
+    //get les articles sans info juste le contenue
+    function getDeArticles(){
+        return 'Ceci est un get default d articles';
+    }
+
+
+
+    #Ancienne API CHUCK
     function getById($id){
         $linkpdo = connexionDB();
         $recupid = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id = :id');

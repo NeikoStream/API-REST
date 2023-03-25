@@ -13,54 +13,77 @@ include('jwt_utils.php');
  switch ($http_method){
     /// Cas de la méthode GET
     case "GET" :
-        if(is_jwt_valid(get_bearer_token())){
-            deliver_response(201, "Ca passe", NULL);
-        } else {
-            deliver_response(201, "Ca casse", NULL);
+        //verifier que l'utilisateur possède un JETON JWT
+        if(!is_null(get_bearer_token())){
+            //verifier la validiter du jeton
+            if(is_jwt_valid(get_bearer_token())){
+                deliver_response(201, "Clé JWT valide", NULL);
+                $idUser = getPayloadUser(get_bearer_token());
+                //Si publisher
+                if(getRole($idUser) == 1){
+                    //getMyArticles
+                    if($_GET["methode"] == 'myArticles'){
+                        deliver_response(201, "Articles de l'utilisateur",getMyArticles($idUser));
+                    } //GetAllArticles avec nblike / nb dislike
+                    else {
+                        deliver_response(201, "Articles All sans le détail des likes",getPuArticles());
+                    }
+
+                }//Si Moderateur 
+                elseif (getRole($idUser) == 2) {
+                    //GetAllArticles avec toutes les infos
+                }//Si autres 
+                else{
+                    deliver_response(201, "Probleme de role (ROLE INEXISTANT)", getRole($idUser)[0]);
+                }
+            } else {
+                deliver_response(201, "CLE JWT NON VALIDE", NULL);
+            }
+        } else 
+        //Sinon faire l'action non authentifier
+        {
+            //GetAllArticles (Sans détail)
+            deliver_response(201, "Get Default Reussit 1", getDeArticles());
         }
-    
     break;
     /// Cas de la méthode POST
     case "POST" :
-        /// Récupération des données envoyées par le Client
-        if (!empty($_GET['phrase'])){
-
+        //verifier que l'utilisateur possède un JETON JWT
+        if(!is_null(get_bearer_token())){
+            //verifier la validiter du jeton
+            if(is_jwt_valid(get_bearer_token())){
+                deliver_response(201, "Ca passe", NULL);
+            } else {
+                deliver_response(201, "Ca casse", NULL);
+            }
+        } else 
+        //Sinon erreur Clé non entrer
+        {
+            //GetAllArticles (Sans détail)
+            deliver_response(201, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
         }
-        $postedData = file_get_contents('php://input');
-
-        /// Traitement
-        /// Envoi de la réponse au Client
-        deliver_response(201, "Votre message", NULL);
         break;
     /// Cas de la méthode PATCH
     case "PATCH" :
-        if (!empty($_GET['id']) && !empty($_GET['phrase'])){
-            if(edit($_GET['id'], $_GET['phrase'])){
-                deliver_response(201, "Patch réussit", getById($_GET['id']));
+        //verifier que l'utilisateur possède un JETON JWT
+        if(!is_null(get_bearer_token())){
+            //verifier la validiter du jeton
+            if(is_jwt_valid(get_bearer_token())){
+                deliver_response(201, "Ca passe", NULL);
             } else {
-                deliver_response(203, "Patch Echoué (niveau de la requete)", getById($_GET['id']));
+                deliver_response(201, "Ca casse", NULL);
             }
-            
-           
-        } else {
-            deliver_response(202, "Patch Echec (OPTION MANQUANTE) -> (ID/PHRASE)", NULL);
+        } else 
+        //Sinon erreur Clé non entrer
+        {
+            //GetAllArticles (Sans détail)
+            deliver_response(201, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
         }
-        /// Récupération des données envoyées par le Client
-        $postedData = file_get_contents('php://input');
+        break;
 
-    /// Traitement
-    /// Envoi de la réponse au Client
-    deliver_response(200, "Votre message", NULL);
-    break;
-    /// Cas de la méthode GET ALL
     default :
-    /// Récupération de l'identifiant de la ressource envoyé par le Client
-        if (empty($_GET['id'])){
-        /// Traitement
-            deliver_response(200, "Get All Réussit", getPayloadUser(get_bearer_token()));
-        }
-        /// Envoi de la réponse au Client
-        
+    /// Renvoie les articles sans détail (GET)
+        deliver_response(201, "Get Default Reussit 2", getDeArticles());
         break;
 }
 
