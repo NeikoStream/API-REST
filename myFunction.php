@@ -63,7 +63,7 @@
     }
 
     # Moderateur
-    function getMoArticles($id){
+    function getMoArticles(){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
         $requete -> execute();
@@ -71,7 +71,7 @@
         return $articles;
     }
     
-    function getArticles(){
+    function getLikeArticles(){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, idUser, etatLike FROM liker ORDER BY idArticle, etatLike');
         $requete -> execute();
