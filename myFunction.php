@@ -45,91 +45,89 @@
 
     //tous les articles + nblike + nb dislike
     function getMoArticles(){
-        return NULL;
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
+        $requete -> execute();
+        $articles = $requete->fetchALL();  
+        return $articles;
     }
+
     //tous les likes/dislikes par articles (peut etre mettre un id en param)
     function getLikeArticles(){
-        return NULL;
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('SELECT idArticle, idUser, etatLike FROM liker ORDER BY idArticle, etatLike');
+        $requete -> execute();
+        $like = $requete->fetchALL();
+        return $like;
     }
 
     //delete un article
     function deleteArticle($idArticle){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('DELETE FROM liker WHERE idArticle=:id');
+        $requete -> execute(array('id' => $idArticle));
+        $requete = $linkpdo->prepare('DELETE FROM articles WHERE idArticle=:id');
+        $requete -> execute(array('id' => $idArticle)); 
         return NULL;
     }
-
 
     /*Publisher*/
 
     //post un article
     function postPuArticle($contenu, $idPublisher){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('INSERT INTO articles(datePublication, contenu, idUser) VALUES (Now(), :contenu, :iduser)');
+        $requete -> execute(array('contenu' => $contenu, 'iduser' => $id));
         return NULL;
     }
+
     //peut etre faire juste un getArticles en commun vue qu'il renvoie la meme chose
     function getPuArticles(){
-        return NULL;
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
+        $requete -> execute();
+        $articles = $requete->fetchALL();  
+        return $articles;
     }
+
     //renvoie les articles d'un utilisateur
-    function getMyArticles($idPublisher){
-        return NULL;
+    function getMyArticles($id){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle and articles.idUser=:id group by contenu, datePublication, login');
+        $requete -> execute(array('id' => $id));
+        $articles = $requete->fetchALL();  
+        return $articles;
     }
+
     //modifie un article
     function patchPuArticles($contenu,$idArticle){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('UPDATE articles SET datePublication= ???, contenu=:contenu, WHERE idArticle=:idArticle');
+        $requete -> execute(array('contenu' => $contenu, 'idArticle' => $idArticle));
         return NULL;
     }
-    //supprimer ses articles (la meme que get)
-    function deleteMyArticles($idArticle){
-        return NULL;
-    }
+   
     //LIKE/DISLIKE
     function postLikeArticles($idArticle,$idPublisher){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('INSERT INTO liker (idArticle, idUser, etatLike) VALUES (:idArticle, :idUser, 1)');
+        $requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher));
         return NULL;
     }
+
     function postDisLikeArticles($idArticle,$idPublisher){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('INSERT INTO liker (idArticle, idUser, etatLike) VALUES (:idArticle, :idUser, 0)');
+        $requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher));
         return NULL;
     }
 
     /*Default*/
     //get les articles sans info juste le contenue
     function getDeArticles(){
-        return 'Ceci est un get default d articles';
-    }
-
-
-
-    #Ancienne API CHUCK
-    function getById($id){
         $linkpdo = connexionDB();
-        $recupid = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id = :id');
-        $recupid->execute(array('id' => $id));
-        $chuck = $recupid->fetchALL();
-        return $chuck;
+        $requete = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
+        $requete -> execute()
+        return $articles;
     }
-
-
-    function getAllArticles(){
-        $linkpdo = connexionDB();
-
-        $recupall = $linkpdo->prepare('SELECT * FROM chuckn_facts');
-        if($recupall->execute()){
-            $chuck = $recupall->fetchALL();
-            return $chuck;
-        } else {
-            return "ça marche po";
-        }  
-    }
-
-    function edit($id, $phrase){
-        $linkpdo = connexionDB();
-        $edit = $linkpdo->prepare('UPDATE chuckn_facts SET phrase = :phrase WHERE id=:id');
-        return($edit->execute(array('phrase' => $phrase, 'id' => $id)));
-    }
-
-    function addPhrase($phrase){
-        $linkpdo = connexionDB();
-        $edit = $linkpdo->prepare('insert chuckn_facts SET phrase = :phrase WHERE id=:id');
-
-    }
-    */
 ?>
-
-
