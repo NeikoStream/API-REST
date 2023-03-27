@@ -47,28 +47,40 @@
     function getMoArticles(){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
-        $requete -> execute();
-        $articles = $requete->fetchALL();  
-        return $articles;
+        if ($requete -> execute()){
+            $articles = $requete->fetchALL();
+            return $articles;
+        }else{
+            return 0;
+        }
     }
 
     //tous les likes/dislikes par articles (peut etre mettre un id en param)
     function getLikeArticles(){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, idUser, etatLike FROM liker ORDER BY idArticle, etatLike');
-        $requete -> execute();
-        $like = $requete->fetchALL();
-        return $like;
+        if ($requete -> execute()){
+            $like = $requete->fetchALL();
+            return $like;
+        }else{
+            return 0;
+        }
     }
 
     //delete un article
     function deleteArticle($idArticle){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('DELETE FROM liker WHERE idArticle=:id');
-        $requete -> execute(array('id' => $idArticle));
-        $requete = $linkpdo->prepare('DELETE FROM articles WHERE idArticle=:id');
-        $requete -> execute(array('id' => $idArticle)); 
-        return NULL;
+        if ($requete -> execute(array('id' => $idArticle))){
+            $requete = $linkpdo->prepare('DELETE FROM articles WHERE idArticle=:id');
+            if ($requete -> execute(array('id' => $idArticle))){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else{
+            return 0;
+        }
     }
 
     /*Publisher*/
@@ -77,49 +89,67 @@
     function postPuArticle($contenu, $idPublisher){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('INSERT INTO articles(datePublication, contenu, idUser) VALUES (Now(), :contenu, :iduser)');
-        $requete -> execute(array('contenu' => $contenu, 'iduser' => $id));
-        return NULL;
+        if ($requete -> execute(array('contenu' => $contenu, 'iduser' => $id))){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     //peut etre faire juste un getArticles en commun vue qu'il renvoie la meme chose
     function getPuArticles(){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
-        $requete -> execute();
-        $articles = $requete->fetchALL();  
-        return $articles;
+        if ($requete -> execute()){
+            $articles = $requete->fetchALL();  
+            return $articles;
+        }else{
+            return 0;
+        }
     }
 
     //renvoie les articles d'un utilisateur
     function getMyArticles($id){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle and articles.idUser=:id group by contenu, datePublication, login');
-        $requete -> execute(array('id' => $id));
-        $articles = $requete->fetchALL();  
-        return $articles;
+        if ($requete -> execute(array('id' => $id))){
+            $articles = $requete->fetchALL();  
+            return $articles;
+        }else{
+            return 0;
+        }
     }
 
     //modifie un article
     function patchPuArticles($contenu,$idArticle){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('UPDATE articles SET datePublication= ???, contenu=:contenu, WHERE idArticle=:idArticle');
-        $requete -> execute(array('contenu' => $contenu, 'idArticle' => $idArticle));
-        return NULL;
+        if ($requete -> execute(array('contenu' => $contenu, 'idArticle' => $idArticle))){
+            return 1;
+        }else{
+            return 0;
+        }
     }
    
     //LIKE/DISLIKE
     function postLikeArticles($idArticle,$idPublisher){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('INSERT INTO liker (idArticle, idUser, etatLike) VALUES (:idArticle, :idUser, 1)');
-        $requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher));
-        return NULL;
+        if ($requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher))){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     function postDisLikeArticles($idArticle,$idPublisher){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('INSERT INTO liker (idArticle, idUser, etatLike) VALUES (:idArticle, :idUser, 0)');
-        $requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher));
-        return NULL;
+        if ($requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher))){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     /*Default*/
@@ -127,7 +157,10 @@
     function getDeArticles(){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
-        $requete -> execute()
-        return $articles;
+        if ($requete -> execute()){
+            return $articles;
+        }else{
+            return 0;
+        }
     }
 ?>
