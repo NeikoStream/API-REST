@@ -1,6 +1,6 @@
 <?php 
 include('jwt_utils.php');
-
+include('myFunction.php');
 
  /// Paramétrage de l'entête HTTP (pour la réponse au Client)
  header("Content-Type:application/json");
@@ -17,13 +17,13 @@ include('jwt_utils.php');
         $postedData = (array) json_decode(file_get_contents('php://input'),TRUE);
 
         if(isset($postedData['user']) && isset($postedData['mdp'])){
-                
-            $payload = array('user'=>$postedData['user'], 'exp'=>(time()+60));
+            $timeJWT = 600;
+            $recupuser = getUser($postedData['user']); 
+            $payload = array('user'=>$recupuser[0]['idUser'], 'exp'=>(time()+$timeJWT));
             $header = array('alg'=>'HS256','typ'=>'JWT');
-            $mdp = "admin";
-            $user = "admin";
-        
-            if($user == $postedData['user'] && $mdp == $postedData['mdp']){
+            
+            print_r($recupuser[0]['login']);
+            if($recupuser[0]['login'] != null && password_verify($postedData['mdp'], $recupuser[0]['password'])){
                 $jwt = generate_jwt($header, $payload);
                 if(is_jwt_valid($jwt)){
                     deliver_response(200, "Clé JWT créer avec succés", $jwt);
@@ -52,7 +52,7 @@ include('jwt_utils.php');
 
         break;
     default :
-    /// Récupération de l'identifiant de la ressource envoyé par le Client
+    /// Erreur si 0 info
 
         deliver_response(202, "Manque user / mdp ou token pour verifier", NULL);
         /// Envoi de la réponse au Client

@@ -18,71 +18,85 @@
         return password_hash($mdpClair, PASSWORD_DEFAULT, ["cost" => 12]);
     }
 
-    function newUser($user,$mdp){
+    function newUser($user,$mdp,$role){
         $linkpdo = connexionDB();
-        if(getUser($user)['user'][0] == NULL){
-            $new = $linkpdo->prepare('INSERT INTO user(user,passwordKey) VALUES (:user,:pwdHash)');
-            return($new->execute(array('user' => $user, 'pwdHash' => genPasswordHash($mdp))));
-        }
+        $new = $linkpdo->prepare('INSERT INTO utilisateur(login, password, idRole) VALUES (:user,:pwdHash,:role)');
+        return($new->execute(array('user' => $user, 'pwdHash' => genPasswordHash($mdp), 'role' => $role)));
     }
 
     function getUser($user){
         $linkpdo = connexionDB();
-        $getUser  = $linkpdo->prepare('SELECT * FROM user WHERE user = :user');
+        $getUser  = $linkpdo->prepare('SELECT * FROM utilisateur WHERE login = :user');
         $getUser->execute(array('user' => $user));
         $user = $getUser->fetchALL();
         return $user;
     }
 
+    function getRole($idUser){
+        $linkpdo = connexionDB();
+        $getUser  = $linkpdo->prepare('SELECT idRole FROM utilisateur WHERE idUser = :user');
+        $getUser->execute(array('user' => $idUser));
+        $user = $getUser->fetchALL();
+        return $user[0][0];
+    }
+
     ### API_REST
-    ## GET
-    # Non Authentifier
-    function getDeArticles(){
-        $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
-        $requete -> execute()
-        $articles = $requete->fetchALL();
-        return $articles;
-    }
+    /*Moderateur*/
 
-    # Publisher
-    function getPuArticles(){
-        $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
-        $requete -> execute();
-        $articles = $requete->fetchALL();  
-        return $articles;
-    }
-
-    function getMyArticles($id){
-        $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle and articles.idUser=:id group by contenu, datePublication, login');
-        $requete -> execute(array('id' => $id));
-        $articles = $requete->fetchALL();  
-        return $articles;
-    }
-
-    # Moderateur
+    //tous les articles + nblike + nb dislike
     function getMoArticles(){
-        $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
-        $requete -> execute();
-        $articles = $requete->fetchALL();  
-        return $articles;
+        return NULL;
     }
-    
+    //tous les likes/dislikes par articles (peut etre mettre un id en param)
     function getLikeArticles(){
-        $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT idArticle, idUser, etatLike FROM liker ORDER BY idArticle, etatLike');
-        $requete -> execute();
-        $articles = $requete->fetchALL();  
-        return $articles;
+        return NULL;
     }
-    
+
+    //delete un article
+    function deleteArticle($idArticle){
+        return NULL;
+    }
 
 
-    
-    /*
+    /*Publisher*/
+
+    //post un article
+    function postPuArticle($contenu, $idPublisher){
+        return NULL;
+    }
+    //peut etre faire juste un getArticles en commun vue qu'il renvoie la meme chose
+    function getPuArticles(){
+        return NULL;
+    }
+    //renvoie les articles d'un utilisateur
+    function getMyArticles($idPublisher){
+        return NULL;
+    }
+    //modifie un article
+    function patchPuArticles($contenu,$idArticle){
+        return NULL;
+    }
+    //supprimer ses articles (la meme que get)
+    function deleteMyArticles($idArticle){
+        return NULL;
+    }
+    //LIKE/DISLIKE
+    function postLikeArticles($idArticle,$idPublisher){
+        return NULL;
+    }
+    function postDisLikeArticles($idArticle,$idPublisher){
+        return NULL;
+    }
+
+    /*Default*/
+    //get les articles sans info juste le contenue
+    function getDeArticles(){
+        return 'Ceci est un get default d articles';
+    }
+
+
+
+    #Ancienne API CHUCK
     function getById($id){
         $linkpdo = connexionDB();
         $recupid = $linkpdo->prepare('SELECT * FROM chuckn_facts WHERE id = :id');
