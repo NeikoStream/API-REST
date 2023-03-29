@@ -22,12 +22,17 @@ include('jwt_utils.php');
                 //Si publisher
                 if(getRole($idUser) == 1){
                     //getMyArticles
-                    if($_GET["methode"] == 'myArticles'){
-                        deliver_response(201, "Articles de l'utilisateur",getMyArticles($idUser));
-                    } //GetAllArticles avec nblike / nb dislike
-                    else {
-                        deliver_response(201, "Articles All sans le détail des likes",getPuArticles());
+                    if(isset($_GET["methode"])){
+                        if($_GET["methode"] == 'myArticles'){
+                            deliver_response(201, "Articles de l'utilisateur",getMyArticles($idUser));
+                        } //GetAllArticles avec nblike / nb dislike
+                        else {
+                            deliver_response(201, "Mauvaise méthode renseigné", NULL);
+                        }
+                    }else {
+                            deliver_response(201, "Articles All sans le détail des likes",getPuArticles());
                     }
+                    
 
                 }//Si Moderateur 
                 elseif (getRole($idUser) == 2) {
