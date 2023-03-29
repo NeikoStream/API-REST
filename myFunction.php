@@ -1,7 +1,7 @@
 <?php
     function connexionDB(){  
         $db_username = 'root';
-        $db_password = '$iutinfo';
+        $db_password = '';
         $db_name = 'forum';
         $db_host = '127.0.0.1:3306';
 
@@ -89,7 +89,7 @@
     function postPuArticle($contenu, $idPublisher){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('INSERT INTO articles(datePublication, contenu, idUser) VALUES (Now(), :contenu, :iduser)');
-        if ($requete -> execute(array('contenu' => $contenu, 'iduser' => $id))){
+        if ($requete -> execute(array('contenu' => $contenu, 'iduser' => $idPublisher))){
             return 1;
         }else{
             return 0;
@@ -158,6 +158,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
         if ($requete -> execute()){
+            $articles = $requete->fetchALL();  
             return $articles;
         }else{
             return 0;
