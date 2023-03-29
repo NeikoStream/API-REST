@@ -61,8 +61,8 @@ include('jwt_utils.php');
                 $postedData = file_get_contents('php://input');
                 $body = json_decode($postedData,true);
                 if(isset($body['contenu'])){
-                    postPuArticle($body['contenu'],$idUser)
-                    deliver_response(201, "Articles créer avec succès", $body['user'] );
+                    postPuArticle($body['contenu'],$idUser);
+                    deliver_response(201, "Articles créer avec succès", $body['contenu'] );
                 }else{
                     deliver_response(201, "Erreur, pas de contenu renseigner", NULL);
                 }

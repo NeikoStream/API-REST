@@ -89,7 +89,7 @@
     function postPuArticle($contenu, $idPublisher){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('INSERT INTO articles(datePublication, contenu, idUser) VALUES (Now(), :contenu, :iduser)');
-        if ($requete -> execute(array('contenu' => $contenu, 'iduser' => $id))){
+        if ($requete -> execute(array('contenu' => $contenu, 'iduser' => $idPublisher))){
             return 1;
         }else{
             return 0;
