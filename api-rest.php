@@ -24,7 +24,7 @@ include('jwt_utils.php');
                     //getMyArticles
                     if(isset($_GET["methode"])){
                         if($_GET["methode"] == 'myArticles'){
-                            deliver_response(201, "Articles de l'utilisateur",getMyArticles($idUser));
+                            deliver_response(201, "Articles de l'utilisateur", getMyArticles($idUser));
                         } //GetAllArticles avec nblike / nb dislike
                         else {
                             deliver_response(201, "Mauvaise méthode renseigné", NULL);
@@ -48,7 +48,7 @@ include('jwt_utils.php');
         //Sinon faire l'action non authentifier
         {
             //GetAllArticles (Sans détail)
-            deliver_response(201, "Get Default Reussit 1", getDeArticles());
+            deliver_response(201, "Get Default Reussit", getDeArticles());
         }
     break;
     /// Cas de la méthode POST
@@ -57,9 +57,18 @@ include('jwt_utils.php');
         if(!is_null(get_bearer_token())){
             //verifier la validiter du jeton
             if(is_jwt_valid(get_bearer_token())){
-                deliver_response(201, "Ca passe", NULL);
+                $idUser = getPayloadUser(get_bearer_token());
+                $postedData = file_get_contents('php://input');
+                $body = json_decode($postedData,true);
+                if(isset($body['contenu'])){
+                    postPuArticle($body['contenu'],$idUser)
+                    deliver_response(201, "Articles créer avec succès", $body['user'] );
+                }else{
+                    deliver_response(201, "Erreur, pas de contenu renseigner", NULL);
+                }
+                
             } else {
-                deliver_response(201, "Ca casse", NULL);
+                deliver_response(201, "Clé JWT non valide", NULL);
             }
         } else 
         //Sinon erreur Clé non entrer
@@ -74,6 +83,7 @@ include('jwt_utils.php');
         if(!is_null(get_bearer_token())){
             //verifier la validiter du jeton
             if(is_jwt_valid(get_bearer_token())){
+                
                 deliver_response(201, "Ca passe", NULL);
             } else {
                 deliver_response(201, "Ca casse", NULL);
