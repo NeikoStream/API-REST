@@ -48,7 +48,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT articles.idArticle, contenu, datePublication, u.login, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes, GROUP_CONCAT(CASE liker.etatLike WHEN 1 THEN utilisateur.login END) as listeLikes, GROUP_CONCAT(CASE liker.etatLike WHEN 0 THEN utilisateur.login END) as listeDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur ON liker.idUser = utilisateur.idUser LEFT JOIN utilisateur u ON articles.idUser = u.idUser GROUP BY articles.idArticle, contenu, datePublication, u.login');
         if ($requete -> execute()){
-            $articles = $requete->fetchALL();
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS);
             return $articles;
         }else{
             return 0;
@@ -61,7 +61,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, idUser, etatLike FROM liker ORDER BY idArticle, etatLike');
         if ($requete -> execute()){
-            $like = $requete->fetchALL();
+            $like = $requete->fetchALL(PDO::FETCH_CLASS);
             return $like;
         }else{
             return 0;
@@ -103,7 +103,7 @@
         $requete = $linkpdo->prepare('SELECT articles.idArticle, contenu, datePublication, u.login, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur u ON articles.idUser = u.idUser GROUP BY articles.idArticle, contenu, datePublication, u.login');
 
         if ($requete -> execute()){
-            $articles = $requete->fetchALL();  
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS);  
             return $articles;
             
         }else{
@@ -161,7 +161,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
         if ($requete -> execute()){
-            $articles = $requete->fetchALL(); 
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS); 
             return $articles;
         }else{
             return 0;

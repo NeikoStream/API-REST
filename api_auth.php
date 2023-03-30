@@ -17,7 +17,7 @@ include('myFunction.php');
         $postedData = (array) json_decode(file_get_contents('php://input'),TRUE);
 
         if(isset($postedData['user']) && isset($postedData['mdp'])){
-            $timeJWT = 600;
+            $timeJWT = 60*60;
             $recupuser = getUser($postedData['user']); 
             $payload = array('user'=>$recupuser[0]['idUser'], 'exp'=>(time()+$timeJWT));
             $header = array('alg'=>'HS256','typ'=>'JWT');

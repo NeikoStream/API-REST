@@ -40,7 +40,7 @@ include('jwt_utils.php');
                         if ($articles==0){
                                 deliver_response(201, "Erreur base de données execution", NULL);
                         }else{
-                                deliver_response(201, "All Articles", $articles);
+                                deliver_response(201, "Get All Articles Publisher", $articles);
                             }
                     }
                     
@@ -48,6 +48,12 @@ include('jwt_utils.php');
                 }//Si Moderateur 
                 elseif (getRole($idUser) == 1) {
                     //GetAllArticles avec toutes les infos
+                    $articles=getMoArticles();
+                        if ($articles==0){
+                                deliver_response(201, "Erreur base de données execution", NULL);
+                        }else{
+                                deliver_response(201, "Get All Articles Moderateur", $articles);
+                            }
                 }//Si autres 
                 else{
                     deliver_response(201, "Probleme de role (ROLE INEXISTANT)", getRole($idUser)[0]);
@@ -61,7 +67,7 @@ include('jwt_utils.php');
             //GetAllArticles (Sans détail)
             deliver_response(201, "Get Default Reussit", getDeArticles());
         }
-    break;
+        break;
     /// Cas de la méthode POST
     case "POST" :
         //verifier que l'utilisateur possède un JETON JWT
@@ -94,8 +100,56 @@ include('jwt_utils.php');
         if(!is_null(get_bearer_token())){
             //verifier la validiter du jeton
             if(is_jwt_valid(get_bearer_token())){
-                
+                $delete = deleteArticle($idArticle);
+                if ($delete==0){
+                        deliver_response(201, "Erreur base de données execution", NULL);
+                    }else{
+                        deliver_response(201, "Articles de l'utilisateur", NULL);
+                    }
                 deliver_response(201, "Ca passe", NULL);
+            } else {
+                deliver_response(201, "Ca casse", NULL);
+            }
+        } else 
+        //Sinon erreur Clé non entrer
+        {
+            //GetAllArticles (Sans détail)
+            deliver_response(201, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
+        }
+        break;
+
+    case "DELETE" :
+        //verifier si le jeton a été renseigner
+        if(!is_null(get_bearer_token())){
+            //verifier la validiter du jeton
+            if(is_jwt_valid(get_bearer_token())){
+                $idUser = getPayloadUser(get_bearer_token());
+                //Si Modérateur
+                if(getRole($idUser) == 2){
+                    if(isset($_GET["id"])){
+                        $delete = deleteArticle($_GET["id"]);
+                        if ($delete==0){
+                                deliver_response(201, "Erreur base de données execution", NULL);
+                            }else{
+                                deliver_response(201, "Articles bien supprimer !", NULL);
+                            }
+                    }else {
+                        deliver_response(201, "Mauvais parametre pour Delete !", NULL);
+                    }
+                } elseif(getRole($idUser) == 1){
+                    if(isset($_GET["id"])){
+                        //FAIRE UNE FONCTION DELETEPU
+                        $delete = deleteArticle($_GET["id"]);
+                        if ($delete==0){
+                                deliver_response(201, "Erreur base de données execution", NULL);
+                            }else{
+                                deliver_response(201, "Articles bien supprimer !", NULL);
+                            }
+                    }else {
+                        deliver_response(201, "Ca casse", NULL);
+                    }
+                }
+                
             } else {
                 deliver_response(201, "Ca casse", NULL);
             }
