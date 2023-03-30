@@ -20,11 +20,11 @@ include('jwt_utils.php');
                 deliver_response(201, "Clé JWT valide", NULL);
                 $idUser = getPayloadUser(get_bearer_token());
                 //Si publisher
-                if(getRole($idUser) == 1){
+                if(getRole($idUser) == 2){
                     //getMyArticles
                     if(isset($_GET["methode"])){
                         if($_GET["methode"] == 'myArticles'){
-                            $articles=getMyArticles($idUser)
+                            $articles=getMyArticles($idUser);
                             //validité de getMyArticles
                             if ($articles==0){
                                 deliver_response(201, "Erreur base de données execution", NULL);
@@ -36,12 +36,17 @@ include('jwt_utils.php');
                             deliver_response(201, "Mauvaise méthode renseigné", NULL);
                         }
                     }else {
-                            deliver_response(201, "Articles All sans le détail des likes",getPuArticles());
+                        $articles=getPuArticles();
+                        if ($articles==0){
+                                deliver_response(201, "Erreur base de données execution", NULL);
+                        }else{
+                                deliver_response(201, "All Articles", $articles);
+                            }
                     }
                     
 
                 }//Si Moderateur 
-                elseif (getRole($idUser) == 2) {
+                elseif (getRole($idUser) == 1) {
                     //GetAllArticles avec toutes les infos
                 }//Si autres 
                 else{

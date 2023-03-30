@@ -101,9 +101,11 @@
     function getPuArticles(){
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT articles.idArticle, contenu, datePublication, u.login, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur u ON articles.idUser = u.idUser GROUP BY articles.idArticle, contenu, datePublication, u.login');
+
         if ($requete -> execute()){
             $articles = $requete->fetchALL();  
             return $articles;
+            
         }else{
             return 0;
         }
