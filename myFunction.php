@@ -68,6 +68,18 @@
         }
     }
 
+    //fonction permettant de récupérer l'id de l'auteur de l'article
+    function getIdUser($idArticle){
+        $linkpdo = connexionDB();
+        $requete = $linkpdo->prepare('SELECT idUser FROM articles WHERE idArticle=:id');
+        if ($requete -> execute(array('id' => $idArticle))){
+            $user = $requete->fetchALL();
+            return $user;
+        }else{
+            return 0;
+        }
+    }
+    
     //delete un article
     function deleteArticle($idArticle){
         $linkpdo = connexionDB();
