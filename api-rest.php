@@ -29,7 +29,7 @@ include('jwt_utils.php');
                             if ($articles==0){
                                 deliver_response(201, "Erreur base de données execution", NULL);
                             }else{
-                            deliver_response(201, "Articles de l'utilisateur", $articles);
+                                deliver_response(201, "Articles de l'utilisateur", $articles);
                             }
                         } //GetAllArticles avec nblike / nb dislike
                         else {
