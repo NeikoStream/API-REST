@@ -74,7 +74,11 @@
         $requete = $linkpdo->prepare('SELECT idUser FROM articles WHERE idArticle=:id');
         if ($requete -> execute(array('id' => $idArticle))){
             $user = $requete->fetchALL();
-            return $user;
+            if($requete->rowCount() > 0){
+                return $user[0]['idUser'];
+            }else{
+                return 0;
+            }
         }else{
             return 0;
         }
@@ -128,7 +132,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT articles.idArticle, contenu, datePublication, u.login, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur u ON articles.idUser = u.idUser WHERE articles.idUser=:id GROUP BY articles.idArticle, contenu, datePublication, u.login;');
         if ($requete -> execute(array('id' => $idPublisher))){
-            $articles = $requete->fetchALL();  
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS);  
             return $articles;
         }else{
             return 0;
@@ -138,7 +142,7 @@
     //modifie un article
     function patchPuArticles($contenu, $idArticle){
         $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('UPDATE articles SET contenu=:contenu, WHERE idArticle=:idArticle');
+        $requete = $linkpdo->prepare('UPDATE articles SET contenu=:contenu WHERE idArticle=:idArticle');
         if ($requete -> execute(array('contenu' => $contenu, 'idArticle' => $idArticle))){
             return 1;
         }else{
@@ -147,25 +151,16 @@
     }
    
     //LIKE/DISLIKE
-    function postLikeArticles($idArticle,$idPublisher){
+    function postLikeEtatArticles($idArticle,$idPublisher,$etat){
         $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('INSERT INTO liker (idArticle, idUser, etatLike) VALUES (:idArticle, :idUser, 1)');
-        if ($requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher))){
+        $requete = $linkpdo->prepare('INSERT INTO liker (idArticle, idUser, etatLike) VALUES (:idArticle, :idUser, :etatLike) ON DUPLICATE KEY UPDATE etatLike=:etatLike');
+        if ($requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher,'etatLike' => $etat))){
             return 1;
         }else{
             return 0;
         }
     }
 
-    function postDisLikeArticles($idArticle,$idPublisher){
-        $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('INSERT INTO liker (idArticle, idUser, etatLike) VALUES (:idArticle, :idUser, 0)');
-        if ($requete -> execute(array('idArticle' => $idArticle, 'idUser' => $idPublisher))){
-            return 1;
-        }else{
-            return 0;
-        }
-    }
 
     /*Default*/
     //get les articles sans info juste le contenue
