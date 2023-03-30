@@ -46,7 +46,7 @@
     //tous les articles + nblike + nb dislike + likes et dislike
     function getMoArticles(){
         $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT articles.idArticle, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes, GROUP_CONCAT(CASE liker.etatLike WHEN 1 THEN utilisateur.login END) as listeLikes, GROUP_CONCAT(CASE liker.etatLike WHEN 0 THEN utilisateur.login END) as listeDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur ON liker.idUser = utilisateur.idUser GROUP BY articles.idArticle');
+        $requete = $linkpdo->prepare('SELECT articles.idArticle, contenu, datePublication, u.login, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes, GROUP_CONCAT(CASE liker.etatLike WHEN 1 THEN utilisateur.login END) as listeLikes, GROUP_CONCAT(CASE liker.etatLike WHEN 0 THEN utilisateur.login END) as listeDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur ON liker.idUser = utilisateur.idUser LEFT JOIN utilisateur u ON articles.idUser = u.idUser GROUP BY articles.idArticle, contenu, datePublication, u.login');
         if ($requete -> execute()){
             $articles = $requete->fetchALL();
             return $articles;
@@ -100,7 +100,8 @@
     //peut etre faire juste un getArticles en commun vue qu'il renvoie la meme chose
     function getPuArticles(){
         $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT articles.idArticle, SUM(case when etatLike=1 then 1 else 0 end) AS nbLike, SUM(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by idArticle,contenu, datePublication, login');
+        $requete = $linkpdo->prepare('SELECT articles.idArticle, contenu, datePublication, u.login, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur u ON articles.idUser = u.idUser GROUP BY articles.idArticle, contenu, datePublication, u.login');
+
         if ($requete -> execute()){
             $articles = $requete->fetchALL();  
             return $articles;
@@ -111,10 +112,10 @@
     }
 
     //renvoie les articles d'un utilisateur
-    function getMyArticles($id){
+    function getMyArticles($idPublisher){
         $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle and articles.idUser=:id group by contenu, datePublication, login');
-        if ($requete -> execute(array('id' => $id))){
+        $requete = $linkpdo->prepare('SELECT articles.idArticle, contenu, datePublication, u.login, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur u ON articles.idUser = u.idUser WHERE articles.idUser=:id GROUP BY articles.idArticle, contenu, datePublication, u.login;');
+        if ($requete -> execute(array('id' => $idPublisher))){
             $articles = $requete->fetchALL();  
             return $articles;
         }else{
@@ -123,9 +124,9 @@
     }
 
     //modifie un article
-    function patchPuArticles($contenu,$idArticle){
+    function patchPuArticles($contenu, $idArticle){
         $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('UPDATE articles SET datePublication= ???, contenu=:contenu, WHERE idArticle=:idArticle');
+        $requete = $linkpdo->prepare('UPDATE articles SET contenu=:contenu, WHERE idArticle=:idArticle');
         if ($requete -> execute(array('contenu' => $contenu, 'idArticle' => $idArticle))){
             return 1;
         }else{
