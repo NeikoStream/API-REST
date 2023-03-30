@@ -100,10 +100,11 @@
     //peut etre faire juste un getArticles en commun vue qu'il renvoie la meme chose
     function getPuArticles(){
         $linkpdo = connexionDB();
-        $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by contenu, datePublication, login');
+        $requete = $linkpdo->prepare('SELECT articles.idArticle, SUM(case when etatLike=1 then 1 else 0 end) AS nbLike, SUM(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by idArticle,contenu, datePublication, login');
         if ($requete -> execute()){
             $articles = $requete->fetchALL();  
             return $articles;
+            
         }else{
             return 0;
         }
