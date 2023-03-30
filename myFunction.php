@@ -48,7 +48,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT articles.idArticle, SUM(liker.etatLike = 1) as nbLikes, SUM(liker.etatLike = 0) as nbDislikes, GROUP_CONCAT(CASE liker.etatLike WHEN 1 THEN utilisateur.login END) as listeLikes, GROUP_CONCAT(CASE liker.etatLike WHEN 0 THEN utilisateur.login END) as listeDislikes FROM articles LEFT JOIN liker ON articles.idArticle = liker.idArticle LEFT JOIN utilisateur ON liker.idUser = utilisateur.idUser GROUP BY articles.idArticle');
         if ($requete -> execute()){
-            $articles = $requete->fetchALL();
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS);
             return $articles;
         }else{
             return 0;
@@ -61,7 +61,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, idUser, etatLike FROM liker ORDER BY idArticle, etatLike');
         if ($requete -> execute()){
-            $like = $requete->fetchALL();
+            $like = $requete->fetchALL(PDO::FETCH_CLASS);
             return $like;
         }else{
             return 0;
@@ -102,7 +102,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT articles.idArticle, SUM(case when etatLike=1 then 1 else 0 end) AS nbLike, SUM(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle group by idArticle,contenu, datePublication, login');
         if ($requete -> execute()){
-            $articles = $requete->fetchALL();  
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS);  
             return $articles;
             
         }else{
@@ -115,7 +115,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT idArticle, COUNT(case when etatLike=1 then 1 else 0 end) AS nbLike, COUNT(case when etatLike=0 then 1 else 0 end) AS nbDislike, contenu, datePublication, login FROM articles, utilisateur, liker WHERE articles.idUser=utilisateur.idUser and liker.idArticle=articles.idArticle and articles.idUser=:id group by contenu, datePublication, login');
         if ($requete -> execute(array('id' => $id))){
-            $articles = $requete->fetchALL();  
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS);  
             return $articles;
         }else{
             return 0;
@@ -160,7 +160,7 @@
         $linkpdo = connexionDB();
         $requete = $linkpdo->prepare('SELECT contenu, datePublication, login FROM articles, utilisateur WHERE articles.idUser=utilisateur.idUser');
         if ($requete -> execute()){
-            $articles = $requete->fetchALL(); 
+            $articles = $requete->fetchALL(PDO::FETCH_CLASS); 
             return $articles;
         }else{
             return 0;
