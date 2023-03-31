@@ -26,12 +26,12 @@ include('myFunction.php');
             if($recupuser[0]['login'] != null && password_verify($postedData['mdp'], $recupuser[0]['password'])){
                 $jwt = generate_jwt($header, $payload);
                 if(is_jwt_valid($jwt)){
-                    deliver_response(200, "Clé JWT créer avec succés", $jwt);
+                    deliver_response(201, "Clé JWT créer avec succés", $jwt);
                 }else{
-                    deliver_response(201, "Clé JWT échoué", NULL);
+                    deliver_response(400, "Clé JWT échoué", NULL);
                 }
             }else{
-                deliver_response(202, "Erreur mauvaise combinaison USER/MDP", NULL);
+                deliver_response(401, "Erreur mauvaise combinaison USER/MDP", NULL);
             }
         }
 
@@ -39,7 +39,7 @@ include('myFunction.php');
             if(is_jwt_valid(get_bearer_token())){
                 deliver_response(200, "Clé JWT valide", get_bearer_token());
             }else{
-                deliver_response(201, "Clé JWT non valide", get_bearer_token());
+                deliver_response(400, "Clé JWT non valide", get_bearer_token());
             }
         }
 

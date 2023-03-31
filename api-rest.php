@@ -189,6 +189,8 @@ include('jwt_utils.php');
                     }else {
                         deliver_response(400, "Erreur : Renseigner un idArticle !", NULL);
                     }
+                } else {
+                    deliver_response(401, "Erreur mauvais rôle !", NULL);
                 }
                 
             } else {
