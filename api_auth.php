@@ -22,7 +22,6 @@ include('myFunction.php');
             $payload = array('user'=>$recupuser[0]['idUser'], 'exp'=>(time()+$timeJWT));
             $header = array('alg'=>'HS256','typ'=>'JWT');
             
-            print_r($recupuser[0]['login']);
             if($recupuser[0]['login'] != null && password_verify($postedData['mdp'], $recupuser[0]['password'])){
                 $jwt = generate_jwt($header, $payload);
                 if(is_jwt_valid($jwt)){
