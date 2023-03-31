@@ -29,7 +29,7 @@ include('jwt_utils.php');
                             if ($articles==0){
                                 deliver_response(201, "Erreur base de données execution", NULL);
                             }else{
-                                deliver_response(201, "Articles de l'utilisateur", $articles);
+                                deliver_response(200, "Get de mes articles réussit !", $articles);
                             }
                         } //GetAllArticles avec nblike / nb dislike
                         else {
@@ -77,35 +77,42 @@ include('jwt_utils.php');
                 $idUser = getPayloadUser(get_bearer_token());
                 $postedData = file_get_contents('php://input');
                 $body = json_decode($postedData,true);
-                //Verif si Modérateur
+                //Verif si Publisher
                 if(getRole($idUser) == 2){
                     
                     //si il y a un contenu
                     if(isset($body['contenu'])){
-                        postPuArticle($body['contenu'],$idUser);
-                        deliver_response(201, "Articles créer avec succès", $body['contenu'] );
+                        $post = postPuArticle($body['contenu'],$idUser);
+                        if($post==0){
+                            deliver_response(400, "Erreur base de données execution", NULL);
+                        } else {
+                            deliver_response(201, "Articles créer avec succès", $body['contenu'] );
+                        }
+                        
                     } //si il y a un id et un etatlike
                     elseif(isset($body['id']) && isset($body['EtatLike'])) {
                         
                         $like =  postLikeEtatArticles($body['id'],$idUser,$body['EtatLike']);
                         if($like==0){
-                            deliver_response(201, "Erreur d'execution (Article n'existe pas)", NULL);
+                            deliver_response(404, "Erreur d'execution (Article n'existe pas)", NULL);
                         } else {
                             deliver_response(201, "Like/Dislike bien ajouter !", NULL);
                         }     
                     } else{
-                        deliver_response(201, "Erreur mauvais rôle !", NULL);
+                        deliver_response(400 , "Parametre non valide !", NULL);
                     }
+                }else{
+                        deliver_response(401, "Erreur mauvais rôle !", NULL);
                 }
                 
                 
             } else {
-                deliver_response(201, "Clé JWT non valide", NULL);
+                deliver_response(401, "Clé JWT non valide", NULL);
             }
         } else 
         //Sinon erreur Clé non entrer
         {
-            //GetAllArticles (Sans détail)
+            //Pas de clé JWT rentré 
             deliver_response(201, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
         }
         break;
@@ -118,22 +125,26 @@ include('jwt_utils.php');
                 $idUser = getPayloadUser(get_bearer_token());
                 $postedData = file_get_contents('php://input');
                 $body = json_decode($postedData,true);
-                if(isset($body["id"]) && isset($body["contenu"])){
-                    if(getIdUser($body["id"]) == $idUser){
-                        $edit = patchPuArticles($body["contenu"], $body["id"]); 
-                        if ($edit==0){
-                                deliver_response(201, "Erreur base de données execution", NULL);
-                            }else{
-                                deliver_response(201, "Articles modifier avec succés !", $body["contenu"]);
+                if(getRole($idUser) == 2){
+                    if(isset($body["id"]) && isset($body["contenu"])){
+                        if(getIdUser($body["id"]) == $idUser){
+                            $edit = patchPuArticles($body["contenu"], $body["id"]); 
+                            if ($edit==0){
+                                    deliver_response(201, "Erreur base de données execution", NULL);
+                                }else{
+                                    deliver_response(201, "Articles modifier avec succés !", $body["contenu"]);
+                            }
+                        } else {
+                            deliver_response(201, "Article n'appartient pas a l'utilisateur ou Article n'exite pas", NULL);
                         }
-                    } else {
-                        deliver_response(201, "Article n'appartient pas a l'utilisateur ou Article n'exite pas", NULL);
+                    } else{
+                        deliver_response(201, "Mauvais parametre (id / contenu) !", NULL);
                     }
-                } else{
-                    deliver_response(201, "Mauvais parametre (id / contenu) !", NULL);
+                } else {
+                    deliver_response(401, "Erreur mauvais rôle !", NULL);
                 }
             } else {
-                deliver_response(201, "JWT non valide !", NULL);
+                deliver_response(401, "JWT non valide !", NULL);
             }
         } else 
         //Sinon erreur Clé non entrer
@@ -171,7 +182,7 @@ include('jwt_utils.php');
                         //FAIRE UNE FONCTION DELETEPU
                         $delete = deleteArticle($_GET["id"]);
                         if ($delete==0){
-                                deliver_response(201, "Erreur base de données execution", NULL);
+                                deliver_response(200, "Erreur base de données execution", NULL);
                             }else{
                                 deliver_response(201, "Articles bien supprimé !", NULL);
                             }
@@ -181,7 +192,7 @@ include('jwt_utils.php');
                 }
                 
             } else {
-                deliver_response(201, "Ca casse2", NULL);
+                deliver_response(201, "JWT Token non valide !", NULL);
             }
         } else 
         //Sinon erreur Clé non entrer
@@ -193,7 +204,7 @@ include('jwt_utils.php');
 
     default :
     /// Renvoie les articles sans détail (GET)
-        deliver_response(201, "Get Default Reussit 2", getDeArticles());
+        deliver_response(201, "Get Default", getDeArticles());
         break;
 }
 
