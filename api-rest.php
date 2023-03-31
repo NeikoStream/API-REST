@@ -36,6 +36,7 @@ include('jwt_utils.php');
                             deliver_response(400, "Mauvaise méthode renseigné", NULL);
                         }
                     }else {
+                        //getAllArticles
                         $articles=getPuArticles();
                         if ($articles==0){
                                 deliver_response(400, "Erreur base de données execution", NULL);
@@ -153,14 +154,14 @@ include('jwt_utils.php');
             deliver_response(403, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
         }
         break;
-
+    /// Cas de la méthode DELETE
     case "DELETE" :
         //verifier si le jeton a été renseigner
         if(!is_null(get_bearer_token())){
             //verifier la validiter du jeton
             if(is_jwt_valid(get_bearer_token())){
                 $idUser = getPayloadUser(get_bearer_token());
-                //Si Modérateur
+                //Si User
                 if(getRole($idUser) == 2){
                     if(isset($_GET["id"])){
                         if(getIdUser($_GET["id"]) == $idUser){
@@ -177,9 +178,9 @@ include('jwt_utils.php');
                     }else {
                         deliver_response(400, "Mauvais parametre pour Delete !", NULL);
                     }
+                    //Si Moderateur
                 } elseif(getRole($idUser) == 1){
                     if(isset($_GET["id"])){
-                        //FAIRE UNE FONCTION DELETEPU
                         $delete = deleteArticle($_GET["id"]);
                         if ($delete==0){
                                 deliver_response(400, "Erreur base de données execution", NULL);
@@ -199,8 +200,7 @@ include('jwt_utils.php');
         } else 
         //Sinon erreur Clé non entrer
         {
-            //GetAllArticles (Sans détail)
-            deliver_response(400, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
+            deliver_response(403, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
         }
         break;
 
