@@ -65,7 +65,12 @@ include('jwt_utils.php');
         //Sinon faire l'action non authentifier
         {
             //GetAllArticles (Sans détail)
-            deliver_response(200, "Get Default Reussit", getDeArticles());
+            $articles=getDeArticles();
+            if ($articles==0){
+                deliver_response(400, "Erreur base de données execution", NULL);
+            }else{
+                deliver_response(200, "Get Default Reussit", $articles);
+            }            
         }
         break;
     /// Cas de la méthode POST
@@ -199,7 +204,6 @@ include('jwt_utils.php');
         } else 
         //Sinon erreur Clé non entrer
         {
-            //GetAllArticles (Sans détail)
             deliver_response(400, "Erreur aucune clé Bearer entrer pas de POST possible", NULL);
         }
         break;
