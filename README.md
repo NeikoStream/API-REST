@@ -37,7 +37,7 @@ Avant d'utiliser cette API REST, vous devez vous assurer que vous disposez des �
 - Supprimer un de ses articles en indiquant son identifiant en paramètre.
 #### Non-Authentifié
 - Récupérer tous les articles avec les détails suivants : idArticle, contenu, datePublication, l'utilisateur qui l'a publié.
-- Ajouter un like ou un dislike à une publication en indiquant l'état du like dans le corps de la requête (1 pour like, 2 pour dislike).
+- Ajouter un like ou un dislike à une publication en indiquant l'état du like dans le corps de la requête (1 pour like, 0 pour dislike).
 
 
 
