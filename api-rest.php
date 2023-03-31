@@ -17,7 +17,6 @@ include('jwt_utils.php');
         if(!is_null(get_bearer_token())){
             //verifier la validiter du jeton
             if(is_jwt_valid(get_bearer_token())){
-                deliver_response(201, "Clé JWT valide", NULL);
                 $idUser = getPayloadUser(get_bearer_token());
                 //Si publisher
                 if(getRole($idUser) == 2){
