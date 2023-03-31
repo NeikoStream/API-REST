@@ -1,0 +1,458 @@
+{
+	"info": {
+		"_postman_id": "ae454bcd-7313-46fc-a5f1-374b890ad602",
+		"name": "API REST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25635346"
+	},
+	"item": [
+		{
+			"name": "API Auth",
+			"item": [
+				{
+					"name": "Get Token Publisher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"Neiko\", \"mdp\" : \"bonjour\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/API-REST/api_auth.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"API-REST",
+								"api_auth.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Token Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"Spiegel\", \"mdp\" : \"bien\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/API-REST/api_auth.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"API-REST",
+								"api_auth.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNCIsImV4cCI6MTY4MDAwMDA4Mn0.HM00CYuKN6Qs0ch15FkIOTULXcSIgYvYON0ayRs_2y0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/API-REST/api_auth.php",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"API-REST",
+								"api_auth.php"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "all",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API REST",
+			"item": [
+				{
+					"name": "Modérateur",
+					"item": [
+						{
+							"name": "GetAllArticles Modo avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Modo}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete ArticleByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Modo}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php?id=55",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "55"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Publisher",
+					"item": [
+						{
+							"name": "GetAllArticles avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "methode",
+											"value": "myArticles",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetMyArticles avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php?methode=myArticles",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "methode",
+											"value": "myArticles"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Publication avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contenu\" : \"Waw j'ai créer un article 2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Like / DisLike",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\" : 3,\r\n    \"EtatLike\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteMyArticleByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php?id=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Article by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\" : 3,\r\n    \"contenu\" : \"wow c'est modif\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Non Authentifié",
+					"item": [
+						{
+							"name": "GetAllArticles Non Auth",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost/API-REST/api-rest.php",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"API-REST",
+										"api-rest.php"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "JWT-Publisher",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTAiLCJleHAiOjE2ODAyMTgxMTJ9.GTrv0TKVzbAT5zfSugaEhZq09aOPac4ywfQQu4iKdwU"
+		},
+		{
+			"key": "JWT-Modo",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTMiLCJleHAiOjE2ODAyMTgyNzB9.qjqtMOloVo5LAP1TzzcZ4NbfEMcruFk1uoAyhHmWCSs"
+		}
+	]
+}
