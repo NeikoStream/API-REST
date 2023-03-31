@@ -42,12 +42,6 @@ include('myFunction.php');
             }
         }
 
-        
-        
-
-        $postedData = file_get_contents('php://input');
-
-        /// Traitement
 
         break;
     default :
