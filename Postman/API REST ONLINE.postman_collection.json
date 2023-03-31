@@ -1,0 +1,2073 @@
+{
+	"info": {
+		"_postman_id": "c8b4eaeb-f20e-4206-aa33-076be1e49a3e",
+		"name": "API REST ONLINE",
+		"description": "<img src=\"https://content.pstmn.io/b3eafa42-5ab6-4174-a794-9d9b35128aff/aW1hZ2UucG5n\" width=\"1425\" height=\"623\">\n\nAfin de faciliter l'utilisation de l'API sur Postman, deux variables globales ont été mises en place pour ne définir les jetons qu'à deux reprises et permettre l'exécution de toutes les requêtes sans problème.\n\n1. Cliquez sur le dossier correspondant à l'API REST -> API REST ONLINE\n2. Cliquez sur \"Variables\"\n3. Modifiez les valeurs des variables \"JWT-Publisher\" et \"JWT-Modo\" avec les jetons que vous aurez récupérés via les méthodes \"Get Token Publisher\" et \"Get Token Admin\".\n    \n\nProjet réalisé par Nicolas Rousseau et Elena Chelle.\n\nLien GitHub : [https://github.com/NeikoStream/API-REST](https://github.com/NeikoStream/API-REST)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11033418"
+	},
+	"item": [
+		{
+			"name": "API Auth",
+			"item": [
+				{
+					"name": "Get Token Publisher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"Neiko\", \"mdp\" : \"bonjour\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.nrousseau.fr/api_auth.php",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nrousseau",
+								"fr"
+							],
+							"path": [
+								"api_auth.php"
+							]
+						},
+						"description": "Permet de récupérer un jeton (Token JWT) de type Publisher en envoyant les identifiants (Neiko, bonjour) dans le corps de la requête\n\n**Liste des utilisateur de type Publisher**\n\n| **user** | **mdp** |\n| --- | --- |\n| Neiko | bonjour |\n| Chalumeau | comment |\n| Menwizz | çava |"
+					},
+					"response": [
+						{
+							"name": "Get Token Publisher Réussit",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"user\": \"Neiko\", \"mdp\" : \"bonjour\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api_auth.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api_auth.php"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "PHP/8.0.28"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "content-length",
+									"value": "204"
+								},
+								{
+									"key": "content-encoding",
+									"value": "br"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "date",
+									"value": "Fri, 31 Mar 2023 18:54:09 GMT"
+								},
+								{
+									"key": "server",
+									"value": "LiteSpeed"
+								},
+								{
+									"key": "platform",
+									"value": "hostinger"
+								},
+								{
+									"key": "content-security-policy",
+									"value": "upgrade-insecure-requests"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 201,\n    \"status_message\": \"Clé JWT créer avec succés\",\n    \"data\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTAiLCJleHAiOjE2ODI4ODA4NDl9.ftfQmEa8n1-6amFk2LaPoFzgifxJOXH8ujyHWC7SMJA\"\n}"
+						},
+						{
+							"name": "Get Token Publisher Echec",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"user\": \"Neiko\", \"mdp\" : \"erreur\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api_auth.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api_auth.php"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "PHP/8.0.28"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "content-length",
+									"value": "87"
+								},
+								{
+									"key": "content-encoding",
+									"value": "br"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "date",
+									"value": "Fri, 31 Mar 2023 19:01:20 GMT"
+								},
+								{
+									"key": "server",
+									"value": "LiteSpeed"
+								},
+								{
+									"key": "platform",
+									"value": "hostinger"
+								},
+								{
+									"key": "content-security-policy",
+									"value": "upgrade-insecure-requests"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 401,\n    \"status_message\": \"Erreur mauvaise combinaison USER/MDP\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Token Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"Spiegel\", \"mdp\" : \"bien\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.nrousseau.fr/api_auth.php",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nrousseau",
+								"fr"
+							],
+							"path": [
+								"api_auth.php"
+							]
+						},
+						"description": "Permet de récupérer un jeton (Token JWT) de type Modérateur en envoyant les identifiants (Spiegel,bien) dans le corps de la requête\n\n**Liste des utilisateur de type Modérateur**\n\n| **user** | **mdp** |\n| --- | --- |\n| Spiegel | bien |\n| admin | ettoi |"
+					},
+					"response": [
+						{
+							"name": "Get Token Admin Réussit",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"user\": \"Spiegel\", \"mdp\" : \"bien\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api_auth.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api_auth.php"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "PHP/8.0.28"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "content-length",
+									"value": "203"
+								},
+								{
+									"key": "content-encoding",
+									"value": "br"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "date",
+									"value": "Fri, 31 Mar 2023 18:54:22 GMT"
+								},
+								{
+									"key": "server",
+									"value": "LiteSpeed"
+								},
+								{
+									"key": "platform",
+									"value": "hostinger"
+								},
+								{
+									"key": "content-security-policy",
+									"value": "upgrade-insecure-requests"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 201,\n    \"status_message\": \"Clé JWT créer avec succés\",\n    \"data\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTMiLCJleHAiOjE2ODI4ODA4NjJ9.3DO-2zOYPHc14lEIO9NnoIvit_n2aQpNmTUoMU086jE\"\n}"
+						},
+						{
+							"name": "Get Token Admin Echec",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"user\": \"Spiegel\", \"mdp\" : \"Erreur\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api_auth.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api_auth.php"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "PHP/8.0.28"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "content-length",
+									"value": "87"
+								},
+								{
+									"key": "content-encoding",
+									"value": "br"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "date",
+									"value": "Fri, 31 Mar 2023 19:02:46 GMT"
+								},
+								{
+									"key": "server",
+									"value": "LiteSpeed"
+								},
+								{
+									"key": "platform",
+									"value": "hostinger"
+								},
+								{
+									"key": "content-security-policy",
+									"value": "upgrade-insecure-requests"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 401,\n    \"status_message\": \"Erreur mauvaise combinaison USER/MDP\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "TEST Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNCIsImV4cCI6MTY4MDAwMDA4Mn0.HM00CYuKN6Qs0ch15FkIOTULXcSIgYvYON0ayRs_2y0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.nrousseau.fr/api_auth.php",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nrousseau",
+								"fr"
+							],
+							"path": [
+								"api_auth.php"
+							]
+						},
+						"description": "permet de tester la validité d'un jeton (token)."
+					},
+					"response": [
+						{
+							"name": "TEST Token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://api.nrousseau.fr/api_auth.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api_auth.php"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "PHP/8.0.28"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "content-length",
+									"value": "191"
+								},
+								{
+									"key": "content-encoding",
+									"value": "br"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "date",
+									"value": "Fri, 31 Mar 2023 18:54:32 GMT"
+								},
+								{
+									"key": "server",
+									"value": "LiteSpeed"
+								},
+								{
+									"key": "platform",
+									"value": "hostinger"
+								},
+								{
+									"key": "content-security-policy",
+									"value": "upgrade-insecure-requests"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 400,\n    \"status_message\": \"Clé JWT non valide\",\n    \"data\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNCIsImV4cCI6MTY4MDAwMDA4Mn0.HM00CYuKN6Qs0ch15FkIOTULXcSIgYvYON0ayRs_2y0\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Permet de récupérer un jeton JWT valide en fournissant des identifiants de connexion (user, mdp) afin de s'authentifier sur l'API REST."
+		},
+		{
+			"name": "API REST",
+			"item": [
+				{
+					"name": "Modérateur",
+					"item": [
+						{
+							"name": "GetAllArticles Modo avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Modo}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									]
+								},
+								"description": "Permet de récupérer tous les articles avec les détails suivants :\n\n- l'identifiant de l'article (idArticle)\n- le contenu de l'article (contenu)\n- la date de publication de l'article (datePublication)\n- l'utilisateur qui a publié l'article\n- le nombre de mentions J'aime (nombre de Likes)\n- le nombre de mentions Je n'aime pas (nombre de dislikes)\n- la liste des utilisateurs qui ont aimé l'article\n- la liste des utilisateurs qui n'ont pas aimé l'article."
+							},
+							"response": [
+								{
+									"name": "GetAllArticles Modo avec JWT",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "527"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 18:50:45 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"status_message\": \"Get All Articles Moderateur\",\n    \"data\": [\n        {\n            \"idArticle\": \"3\",\n            \"contenu\": \"Les grèves ça fait beaucoup de bouchon sur l'autoroute\",\n            \"datePublication\": \"2023-03-29 16:20:47\",\n            \"login\": \"Neiko\",\n            \"nbLikes\": \"0\",\n            \"nbDislikes\": \"1\",\n            \"listeLikes\": null,\n            \"listeDislikes\": \"Menwizz\"\n        },\n        {\n            \"idArticle\": \"4\",\n            \"contenu\": \"Chat Gpt une nouvelle version miaou miaou miaou miaou!\",\n            \"datePublication\": \"2023-03-29 16:22:39\",\n            \"login\": \"Chalumeau\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\",\n            \"listeLikes\": \"Neiko\",\n            \"listeDislikes\": null\n        },\n        {\n            \"idArticle\": \"5\",\n            \"contenu\": \"La Cavalerie est là mais pas ici\",\n            \"datePublication\": \"2023-03-29 16:25:43\",\n            \"login\": \"Menwizz\",\n            \"nbLikes\": \"0\",\n            \"nbDislikes\": \"1\",\n            \"listeLikes\": null,\n            \"listeDislikes\": \"Chalumeau\"\n        },\n        {\n            \"idArticle\": \"6\",\n            \"contenu\": \"Le steak de cheval est mon plat préféré\",\n            \"datePublication\": \"2023-03-29 16:26:31\",\n            \"login\": \"Menwizz\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\",\n            \"listeLikes\": \"Menwizz\",\n            \"listeDislikes\": null\n        },\n        {\n            \"idArticle\": \"7\",\n            \"contenu\": \"Je suis une saucisse\",\n            \"datePublication\": \"2023-03-29 16:28:04\",\n            \"login\": \"Chalumeau\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\",\n            \"listeLikes\": \"Neiko\",\n            \"listeDislikes\": null\n        },\n        {\n            \"idArticle\": \"8\",\n            \"contenu\": \"Non je n'ai pas d'autre phrases d'exemples\",\n            \"datePublication\": \"2023-03-29 16:32:29\",\n            \"login\": \"Neiko\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\",\n            \"listeLikes\": \"Chalumeau\",\n            \"listeDislikes\": null\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete ArticleByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Modo}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php?id=55",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "55"
+										}
+									]
+								},
+								"description": "permet de supprimer n'importe quel article en indiquant son identifiant (idArticle)."
+							},
+							"response": [
+								{
+									"name": "Delete ArticleByID",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php?id=9",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "9"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "79"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 18:59:20 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"status_message\": \"Articles bien supprimé !\",\n    \"data\": null\n}"
+								}
+							]
+						}
+					],
+					"description": "Toutes les méthode utilisable uniquement par un modérateur."
+				},
+				{
+					"name": "Publisher",
+					"item": [
+						{
+							"name": "GetAllArticles avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "methode",
+											"value": "myArticles",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Permet de récupérer tous les articles avec les détails suivants :\n\n- l'identifiant de l'article (idArticle)\n- le contenu de l'article (contenu)\n- la date de publication de l'article (datePublication)\n- l'utilisateur qui a publié l'article\n- le nombre de mentions J'aime (nombre de Likes)\n- le nombre de mentions Je n'aime pas (nombre de dislikes)"
+							},
+							"response": [
+								{
+									"name": "GetAllArticles avec JWT",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											],
+											"query": [
+												{
+													"key": "methode",
+													"value": "myArticles",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "445"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 18:58:25 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"status_message\": \"Get All Articles Publisher\",\n    \"data\": [\n        {\n            \"idArticle\": \"3\",\n            \"contenu\": \"Les grèves ça fait beaucoup de bouchon sur l'autoroute\",\n            \"datePublication\": \"2023-03-29 16:20:47\",\n            \"login\": \"Neiko\",\n            \"nbLikes\": \"0\",\n            \"nbDislikes\": \"1\"\n        },\n        {\n            \"idArticle\": \"4\",\n            \"contenu\": \"Chat Gpt une nouvelle version miaou miaou miaou miaou!\",\n            \"datePublication\": \"2023-03-29 16:22:39\",\n            \"login\": \"Chalumeau\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\"\n        },\n        {\n            \"idArticle\": \"5\",\n            \"contenu\": \"La Cavalerie est là mais pas ici\",\n            \"datePublication\": \"2023-03-29 16:25:43\",\n            \"login\": \"Menwizz\",\n            \"nbLikes\": \"0\",\n            \"nbDislikes\": \"1\"\n        },\n        {\n            \"idArticle\": \"6\",\n            \"contenu\": \"Le steak de cheval est mon plat préféré\",\n            \"datePublication\": \"2023-03-29 16:26:31\",\n            \"login\": \"Menwizz\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\"\n        },\n        {\n            \"idArticle\": \"7\",\n            \"contenu\": \"Je suis une saucisse\",\n            \"datePublication\": \"2023-03-29 16:28:04\",\n            \"login\": \"Chalumeau\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\"\n        },\n        {\n            \"idArticle\": \"8\",\n            \"contenu\": \"Non je n'ai pas d'autre phrases d'exemples\",\n            \"datePublication\": \"2023-03-29 16:32:29\",\n            \"login\": \"Neiko\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "GetMyArticles avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php?methode=myArticles",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "methode",
+											"value": "myArticles"
+										}
+									]
+								},
+								"description": "Permet à l'utilisateur authentifié de récupérer tous ses propres articles en indiquant le paramètre (methode=myArticles) dans la requête, avec les détails suivants :\n\n- l'identifiant de l'article (idArticle)\n- le contenu de l'article (contenu)\n- la date de publication de l'article (datePublication)\n- l'utilisateur qui a publié l'article\n- le nombre de mentions J'aime (nombre de Likes)\n- le nombre de mentions Je n'aime pas (nombre de dislikes)\n- la liste des utilisateurs qui ont aimé l'article\n- la liste des utilisateurs qui n'ont pas aimé l'article."
+							},
+							"response": [
+								{
+									"name": "GetMyArticles avec JWT Réussit",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php?methode=myArticles",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											],
+											"query": [
+												{
+													"key": "methode",
+													"value": "myArticles"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "265"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 18:58:34 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"status_message\": \"Get de mes articles réussit !\",\n    \"data\": [\n        {\n            \"idArticle\": \"3\",\n            \"contenu\": \"Les grèves ça fait beaucoup de bouchon sur l'autoroute\",\n            \"datePublication\": \"2023-03-29 16:20:47\",\n            \"login\": \"Neiko\",\n            \"nbLikes\": \"0\",\n            \"nbDislikes\": \"1\"\n        },\n        {\n            \"idArticle\": \"8\",\n            \"contenu\": \"Non je n'ai pas d'autre phrases d'exemples\",\n            \"datePublication\": \"2023-03-29 16:32:29\",\n            \"login\": \"Neiko\",\n            \"nbLikes\": \"1\",\n            \"nbDislikes\": \"0\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "GetMyArticles avec JWT  Echec",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php?methode=myArticlesf",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											],
+											"query": [
+												{
+													"key": "methode",
+													"value": "myArticlesf"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "86"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:14:57 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 400,\n    \"status_message\": \"Mauvaise méthode renseigné\",\n    \"data\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Publication avec JWT",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contenu\" : \"Waw j'ai créer un article 5\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									]
+								},
+								"description": "Permet de créer une publication en indiquant le (contenu) dans le corps de la requête"
+							},
+							"response": [
+								{
+									"name": "Create Publication avec JWT Réussit",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"contenu\" : \"Waw j'ai créer un article 4\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "114"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 18:58:50 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 201,\n    \"status_message\": \"Articles créer avec succès\",\n    \"data\": \"Waw j'ai créer un article 4\"\n}"
+								},
+								{
+									"name": "Create Publication avec JWT Echec",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"contensu\" : \"Waw j'ai créer un article 5\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "72"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:15:32 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 400,\n    \"status_message\": \"Parametre non valide !\",\n    \"data\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "Like / DisLike",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\" : 4,\r\n    \"EtatLike\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									]
+								},
+								"description": "Permet d'ajouter un like/dislike à une publication en indiquant l'etatdulike dans le corps de la requête.\n\nJ'aime = 1\n\nJe n'aime pas = 0"
+							},
+							"response": [
+								{
+									"name": "Like",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\" : 4,\r\n    \"EtatLike\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "78"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 18:59:56 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 201,\n    \"status_message\": \"Like/Dislike bien ajouter !\",\n    \"data\": null\n}"
+								},
+								{
+									"name": "DisLike",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\" : 4,\r\n    \"EtatLike\": 0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "78"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:10:12 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 201,\n    \"status_message\": \"Like/Dislike bien ajouter !\",\n    \"data\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "DeleteMyArticleByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php?id=21",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "21"
+										}
+									]
+								},
+								"description": "Permet à l'utilisateur de supprimer l'un de ses articles en indiquant son identifiant (idArticle) dans les paramètres de la requête"
+							},
+							"response": [
+								{
+									"name": "DeleteMyArticleByID Réussit",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php?id=10",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "75"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:00:33 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"status_message\": \"Articles bien supprimer !\",\n    \"data\": null\n}"
+								},
+								{
+									"name": "DeleteMyArticleByID Echec",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php?id=21",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "21"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "109"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:10:39 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 404,\n    \"status_message\": \"Erreur : Articles n'appartient pas a user ou n'existe pas !\",\n    \"data\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "Edit Article by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT-Publisher}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\" : 55,\r\n    \"contenu\" : \"wow c'est modif\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									]
+								},
+								"description": "permet à l'utilisateur de modifier l'un de ses articles en indiquant le contenu ainsi que l'identifiant de l'article à modifier (idArticle) dans le corps de la requête."
+							},
+							"response": [
+								{
+									"name": "Edit Article by ID Réussit",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\" : 3,\r\n    \"contenu\" : \"wow c'est modif\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "99"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:12:09 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 201,\n    \"status_message\": \"Articles modifier avec succés !\",\n    \"data\": \"wow c'est modif\"\n}"
+								},
+								{
+									"name": "Edit Article by ID Echec",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\" : 55,\r\n    \"contenu\" : \"wow c'est modif\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "108"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:12:27 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 404,\n    \"status_message\": \"Article n'appartient pas a l'utilisateur ou Article n'exite pas\",\n    \"data\": null\n}"
+								}
+							]
+						}
+					],
+					"description": "Toutes les méthode utilisable uniquement par un Publisher."
+				},
+				{
+					"name": "Non Authentifié",
+					"item": [
+						{
+							"name": "GetAllArticles Non Auth",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nrousseau.fr/api-rest.php",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nrousseau",
+										"fr"
+									],
+									"path": [
+										"api-rest.php"
+									]
+								},
+								"description": "Permet de récupérer tous les articles avec les détails suivants :\n\n- le contenu de l'article (contenu)\n- la date de publication de l'article (datePublication)\n- l'utilisateur qui a publié l'article"
+							},
+							"response": [
+								{
+									"name": "GetAllArticles Non Auth",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://api.nrousseau.fr/api-rest.php",
+											"protocol": "https",
+											"host": [
+												"api",
+												"nrousseau",
+												"fr"
+											],
+											"path": [
+												"api-rest.php"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "x-powered-by",
+											"value": "PHP/8.0.28"
+										},
+										{
+											"key": "content-type",
+											"value": "application/json"
+										},
+										{
+											"key": "content-length",
+											"value": "379"
+										},
+										{
+											"key": "content-encoding",
+											"value": "br"
+										},
+										{
+											"key": "vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "date",
+											"value": "Fri, 31 Mar 2023 19:00:55 GMT"
+										},
+										{
+											"key": "server",
+											"value": "LiteSpeed"
+										},
+										{
+											"key": "platform",
+											"value": "hostinger"
+										},
+										{
+											"key": "content-security-policy",
+											"value": "upgrade-insecure-requests"
+										},
+										{
+											"key": "alt-svc",
+											"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"status_message\": \"Get Default Reussit\",\n    \"data\": [\n        {\n            \"contenu\": \"Les grèves ça fait beaucoup de bouchon sur l'autoroute\",\n            \"datePublication\": \"2023-03-29 16:20:47\",\n            \"login\": \"Neiko\"\n        },\n        {\n            \"contenu\": \"Chat Gpt une nouvelle version miaou miaou miaou miaou!\",\n            \"datePublication\": \"2023-03-29 16:22:39\",\n            \"login\": \"Chalumeau\"\n        },\n        {\n            \"contenu\": \"La Cavalerie est là mais pas ici\",\n            \"datePublication\": \"2023-03-29 16:25:43\",\n            \"login\": \"Menwizz\"\n        },\n        {\n            \"contenu\": \"Le steak de cheval est mon plat préféré\",\n            \"datePublication\": \"2023-03-29 16:26:31\",\n            \"login\": \"Menwizz\"\n        },\n        {\n            \"contenu\": \"Je suis une saucisse\",\n            \"datePublication\": \"2023-03-29 16:28:04\",\n            \"login\": \"Chalumeau\"\n        },\n        {\n            \"contenu\": \"Non je n'ai pas d'autre phrases d'exemples\",\n            \"datePublication\": \"2023-03-29 16:32:29\",\n            \"login\": \"Neiko\"\n        }\n    ]\n}"
+								}
+							]
+						}
+					],
+					"description": "Toutes les méthodes sont utilisables uniquement par un utilisateur non authentifié (c'est-à-dire sans clé JWT renseignée)."
+				}
+			],
+			"description": "Ici toutes les méthodes de l'API REST"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "JWT-Publisher",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTAiLCJleHAiOjE2ODI4NzYzODF9.ENgQS7DUVvafkv1YE-NYM16twkPrz4QxWa8EwaK_Y2o"
+		},
+		{
+			"key": "JWT-Modo",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTMiLCJleHAiOjE2ODI4NzYzOTh9.16_mP9zgd90Cs3j4qhqCmBYvNVEPi8avdVW6sA3Mtvk"
+		}
+	]
+}
