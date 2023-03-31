@@ -32,12 +32,12 @@ Avant d'utiliser cette API REST, vous devez vous assurer que vous disposez des �
 - Récupérer tous les articles avec les détails suivants : idArticle, contenu, datePublication, l'utilisateur qui l'a publié, nombre de likes, nombre de dislikes.
 - Récupérer tous ses articles avec les détails suivants : idArticle, contenu, datePublication, l'utilisateur qui l'a publié, nombre de likes, nombre de dislikes.
 - Créer un article en indiquant le contenu dans le corps de la requête.
-- Ajouter un Like/Dislike à un article
+- Ajouter un like ou un dislike à une publication en indiquant l'état du like dans le corps de la requête (1 pour like, 0 pour dislike).
 - Modifier un de ses articles en indiquant dans le corps de la requête le contenu ainsi que l'identifiant de l'article à modifier (idArticle).
 - Supprimer un de ses articles en indiquant son identifiant en paramètre.
 #### Non-Authentifié
 - Récupérer tous les articles avec les détails suivants : idArticle, contenu, datePublication, l'utilisateur qui l'a publié.
-- Ajouter un like ou un dislike à une publication en indiquant l'état du like dans le corps de la requête (1 pour like, 0 pour dislike).
+
 
 
 
