@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/neikostream/api-rest/badge)](https://www.codefactor.io/repository/github/neikostream/api-rest)
+
 # API-REST
 Projet Universitaire API REST avec Jeton JWT
 
